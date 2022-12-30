@@ -22,6 +22,8 @@
   - @State private var ~ : state 담을 변수 
   - ${변수명}: 데이터 바인딩, 데이터 저장
   - {변수명}: 데이터 사용, 데이터 참조 
+
+
 ```swift
  struct ContentView: View {
     @State private var wifiEnbled = true
@@ -70,14 +72,18 @@
 
 ```
 
-사용예시
+State 사용예시
 - 특정 행동에 맞춰 view의 상태 변경시 
+- view enable
+- toggle
+- picker
+- tabView
 
 - view enable
 
 ```swift
   struct ContentView: View {
-     @State private var userName = String()
+    @State private var userName = String()
     @State private var isEnable: Bool = false
 
     var body: some View {
@@ -108,9 +114,93 @@
     }
  }
  ```
+ 
+- toggle / 화면전환.
 
-- segment 
+```swift
+ struct ToggleView: View {
+    @State private var isEnable = false
+    @State private var showingSheet = false
+    
+    var body: some View {
+        Form {
+            Section {
+                Toggle("버튼 활성화", isOn: $isEnable)
+            }
+            
+            Section {
+                Button("여기 여기!") {
+                    print("click")
+                    showingSheet.toggle()
+                }
+                .sheet(isPresented: $showingSheet) {
+                    SegmentedControlView()
+                }
+                .disabled(isEnable == false)
+            }
+        }
+    }
+ }
+```
 
+- picker 
+  - state로 값 변경 안하면 반응 x
+  
+```swift
+ struct SegmentedControlView: View {
+    @State private var selectedIndex = 0
+
+    var body: some View {
+        Picker("", selection: $selectedIndex) {
+            Text("A").tag(0)
+            Text("B").tag(1)
+            Text("C").tag(2)
+        }.pickerStyle(SegmentedPickerStyle())
+    }
+ }
+
+```
+
+- tabview 
+  - tag 넣지 않아도 단순 선택으로 화면 이동은 되지만 특정 상황에서 화면 이동 하려면 state로 tag값 변경해야함.
+
+```swift
+ struct TestTabView: View {
+    @State private var selectIndex = 0
+    
+    var body: some View {
+        TabView(selection: $selectIndex) {
+            FirstIndexView()
+                .tabItem {
+                    Label("1", systemImage: "house")
+                }
+                .tag(0)
+            
+            SecondIndexView()
+                .tabItem {
+                    Label("2", systemImage: "person")
+                }
+                .tag(1)
+            
+            ThirdIndexView()
+                .tabItem {
+                    Label("3", systemImage: "bag")
+                }
+                .tag(2)
+        }
+        
+        Button(action : {
+            selectIndex = (selectIndex + 1) % 3
+        }) {
+            Text("다음")
+                .padding()
+                .foregroundColor(.white)
+                .background(Color.blue)
+                .padding()
+        }
+    }
+ }
+```
 
 ## Observable
 -
