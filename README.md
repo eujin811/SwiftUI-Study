@@ -1,9 +1,9 @@
 # SwiftUI-Study
 
 ## Contents
-- State
-- Observable
-- Environment
+- [State](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#state)
+- [Observable](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#observable)
+- [Environment](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#environmnet)
 
 
 
@@ -14,9 +14,11 @@
 **State property**
 - 뷰에 속한 값, 뷰에 바인딩할 값.
 - view layout에 표현할 상태 값.
+- RxSwift의 Relay와 비슷한 역할.
+- 뷰 내부에서만 사용할 수 있음 (접근제한자 private 필수.)
 
 - 사용법
-  - @State var ~ : state 담을 변수 
+  - @State private var ~ : state 담을 변수 
   - ${변수명}: 데이터 바인딩, 데이터 저장
   - {변수명}: 데이터 사용, 데이터 참조 
 ```swift
