@@ -377,8 +377,84 @@ State 사용예시
 ```
 
 
+
+
 ## Observable
--
+- ObservableObject 프로토콜을 따르는 형태
+- 각각의 뷰들이 외부에서 데이터를 전달받아야 할 때 표현
+- 변경되야 할 데이터들의 값을 모아 관리하는 역할
+- 뷰에서는 초기화 상태에서 주입되어야 한다.
+- Observable 객체는 Published property로서 데이터 값을 게시(publish)한다. / 데이터 선언부
+  - @Published var ~
+- Observer 객체는 게시자를 구독(Subscribe)하여 published property가 변경될 때마다 업데이트 받는다. / view binding
+  - @ObservedObject var ~
+
+**Observable 사용법**
+```swift
+  DemoView(demoData: DemoData())
+```
+
+```swift
+ class DemoData: ObservableObject {
+    @Published var userCount = 0
+    @Published var currentUser = String()
+    
+    init() {}
+    
+    func updateData() {}
+ }
+
+ struct DemoView: View {
+    @ObservedObject var demoData: DemoData
+    
+    var body: some View {
+        VStack {
+            Text("\(demoData.currentUser), number \(demoData.userCount)")
+            
+            Button("눌러봐!") {
+                demoData.currentUser = "나!"
+                demoData.userCount += 1
+            }
+        }
+        .padding()
+    }
+ }
+
+```
 
 ## Environmnet
-- 
+- 모든 뷰에서 접근 가능한 데이터 or 뷰에서 뷰로 전달하지 않아도 되는 데이터
+- 선언 형식은 Observable과 동일하게 ObservableObject 주입받고 @Published를 사용해 데이터를 선언한다.
+- 사용자 인터페이스 밖에 있으며 여러뷰가 접근해야하는 데이터를 갖을 경우
+- 선언 형식은 Observable과 동일하게 ObservableObject 주입받고 @Published를 사용해 데이터를 선언한다.
+- 뷰에서 전달 받을 경우 초기화 시점이 아닌 단순 주입형태
+- **@EnvironemntObject var:** 뷰에서 binding할 property 
+
+**사용예시**
+
+```swift
+  let environmentDemoData = EnvironmentDemoData()
+  EnvironmentDemoView().environmentObject(environmentDemoData)
+```
+
+```swift
+ class EnvironmentDemoData: ObservableObject {
+    @Published var userCount = 0
+    @Published var currentUser = String()
+    
+    init() {}
+    
+    func updateData() {}
+ }
+
+ struct EnvironmentDemoView: View {
+    @EnvironmentObject var demoData: EnvironmentDemoData
+
+    var body: some View {
+        VStack {
+            Text("\(demoData.currentUser), number \(demoData.userCount)")
+        }
+        .padding()
+    }
+ }
+```
