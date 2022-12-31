@@ -80,6 +80,7 @@
 
 ```
 
+
 **State는 값이 변경될 경우 body를 다시 계산해준다**
 - State의 값이 바뀔때만. (같은 값이 여러번 들어올 경우 x)
 - body안의 모든 view들이 다시 그려짐
@@ -116,7 +117,9 @@
             blue: .random(in: 0...1))
     }
  }
+ 
 ```
+
 - 새로운 값으로 변경된 상황(firstTitle 변경 시)에만 view들이 다시 그려진다.
   - body 내부의 모든 뷰들이 다시 그려짐 (background color 모두 변경) + 값 변경
   - button을 여러번 눌러도 최고 변경이외에 반응 없음 
@@ -125,7 +128,7 @@
   - 하단 예시의 경우 thirdTitle의 background는 변경되지 않음. 
   - ThirdView 내부의 값이 변화가 없기 때문.
   - 단, StateRedrawView의 thirdView그리는 부분에서 실행시 변화.
-  - 
+  
 ``` swift
  struct StateRedrawView: View {
     @State private var firstTitle = "안녕하세요!"
@@ -160,40 +163,40 @@
 
 ```
 
-- 하단의 경우 firstTitle의 값이 바뀌는 view 내부에서 ThirdView가 있어서 body가 다시 그려져 background 변경됨.
-```swift
-struct StateRedrawView: View {
-    @State private var firstTitle = "안녕하세요!"
-    @State private var secondTitle = "좋은하루 보내셨나용?"
-    @State private var thirdTitle = "아니라구요? "
+  - 하단의 경우 firstTitle의 값이 바뀌는 view 내부에서 ThirdView가 있어서 body가 다시 그려져 background 변경됨.
+  ```swift
+   struct StateRedrawView: View {
+      @State private var firstTitle = "안녕하세요!"
+      @State private var secondTitle = "좋은하루 보내셨나용?"
+      @State private var thirdTitle = "아니라구요? "
     
-    var body: some View {
-        VStack {
-            Text(firstTitle)
-                .background(.random)
+      var body: some View {
+          VStack {
+              Text(firstTitle)
+                  .background(.random)
                 
-            Text(secondTitle)
-                .background(.random)
+              Text(secondTitle)
+                  .background(.random)
             
-            ThirdView(text: thirdTitle)
-                .background(.random)    // 다시 그려짐
+              ThirdView(text: thirdTitle)
+                  .background(.random)    // 다시 그려짐
             
-            Button("Change first title") {
-                firstTitle = "오늘 퇴근 몇시에 하세요?"
-            }
-        }
-    }
-}
+              Button("Change first title") {
+                  firstTitle = "오늘 퇴근 몇시에 하세요?"
+              }
+          }
+      }
+   }
 
-fileprivate struct ThirdView: View {
-    let text: String    
+  fileprivate struct ThirdView: View {
+     let text: String    
     
-    var body: some View {
-        Text(text)
-//            .background(.random)  // 다시 x
-    }
-}
-```
+      var body: some View {
+          Text(text)
+  //            .background(.random)  // 다시 x
+      }
+   }
+  ```
 
 - State를 변경했을 때 하위 뷰까지 다시 그려주고 싶을 경우 
   - 하위뷰에 변경될 state를 넘겨준다. (Binding해준당!)
@@ -249,7 +252,6 @@ State 사용예시
 - toggle
 - picker
 - tabView
-
 - view enable
 
 ```swift
