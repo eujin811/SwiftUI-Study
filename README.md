@@ -4,7 +4,7 @@
 - [State](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#state)
   - 사용법
   - 다시 그려지는 시점. 
-  - 
+  - 예시
 - [Observable](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#observable)
 - [Environment](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#environmnet)
 
@@ -164,39 +164,39 @@
 ```
 
   - 하단의 경우 firstTitle의 값이 바뀌는 view 내부에서 ThirdView가 있어서 body가 다시 그려져 background 변경됨.
-  ```swift
-   struct StateRedrawView: View {
-      @State private var firstTitle = "안녕하세요!"
-      @State private var secondTitle = "좋은하루 보내셨나용?"
-      @State private var thirdTitle = "아니라구요? "
-    
-      var body: some View {
-          VStack {
-              Text(firstTitle)
-                  .background(.random)
+    ```swift
+       struct StateRedrawView: View {
+          @State private var firstTitle = "안녕하세요!"
+          @State private var secondTitle = "좋은하루 보내셨나용?"
+          @State private var thirdTitle = "아니라구요? "
+     
+          var body: some View {
+              VStack {
+                  Text(firstTitle)
+                      .background(.random)
                 
-              Text(secondTitle)
-                  .background(.random)
+                 Text(secondTitle)
+                     .background(.random)
             
-              ThirdView(text: thirdTitle)
-                  .background(.random)    // 다시 그려짐
+                  ThirdView(text: thirdTitle)
+                      .background(.random)    // 다시 그려짐
             
-              Button("Change first title") {
-                  firstTitle = "오늘 퇴근 몇시에 하세요?"
+                  Button("Change first title") {
+                      firstTitle = "오늘 퇴근 몇시에 하세요?"
+                  }
               }
-          }
-      }
-   }
+           }
+        }
 
-  fileprivate struct ThirdView: View {
-     let text: String    
+       fileprivate struct ThirdView: View {
+         let text: String    
     
-      var body: some View {
-          Text(text)
-  //            .background(.random)  // 다시 x
-      }
-   }
-  ```
+          var body: some View {
+              Text(text)
+      //            .background(.random)  // 다시 x
+         }
+       }
+      ```
 
 - State를 변경했을 때 하위 뷰까지 다시 그려주고 싶을 경우 
   - 하위뷰에 변경될 state를 넘겨준다. (Binding해준당!)
