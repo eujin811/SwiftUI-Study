@@ -2,6 +2,9 @@
 
 ## Contents
 - [State](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#state)
+  - 사용법
+  - 다시 그려지는 시점. 
+  - 
 - [Observable](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#observable)
 - [Environment](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#environmnet)
 
@@ -25,8 +28,8 @@
 
 - 사용법
   - @State private var ~ : state 담을 변수 
-  - ${변수명}: 데이터 바인딩, 데이터 저장
-  - {변수명}: 데이터 사용, 데이터 참조 
+  - ${변수명}: 값 바인딩, 값 저장
+  - {변수명}: 값 사용, 값 참조 
 
 
 ```swift
@@ -76,6 +79,169 @@
  }
 
 ```
+
+**State는 값이 변경될 경우 body를 다시 계산해준다**
+- State의 값이 바뀔때만. (같은 값이 여러번 들어올 경우 x)
+- body안의 모든 view들이 다시 그려짐
+
+```swift
+ struct StateRedrawView: View {
+    @State var firstTitle = "안녕하세요!"
+    @State var secondTitle = "좋은하루 보내셨나용?"
+    @State var thirdTitle = "아니라구요? "
+    
+    var body: some View {
+        VStack {
+            Text(firstTitle)
+                .background(.random)
+                
+            Text(secondTitle)
+                .background(.random)
+            
+            Text(thirdTitle)
+                .background(.random)
+            
+            Button("Change first title") {
+                firstTitle = "오늘 퇴근 몇시에 하세요?"
+            }
+        }
+    }
+ }
+
+ fileprivate extension ShapeStyle where Self == Color {
+    static var random: Color {
+        Color(
+            red: .random(in: 0...1),
+            green: .random(in: 0...1),
+            blue: .random(in: 0...1))
+    }
+ }
+```
+- 새로운 값으로 변경된 상황(firstTitle 변경 시)에만 view들이 다시 그려진다.
+  - body 내부의 모든 뷰들이 다시 그려짐 (background color 모두 변경) + 값 변경
+  - button을 여러번 눌러도 최고 변경이외에 반응 없음 
+
+- 값의 변화가 있어야 다시 그려진다.
+  - 하단 예시의 경우 thirdTitle의 background는 변경되지 않음. 
+  - ThirdView 내부의 값이 변화가 없기 때문.
+  - 단, StateRedrawView의 thirdView그리는 부분에서 실행시 변화.
+  - 
+``` swift
+ struct StateRedrawView: View {
+    @State private var firstTitle = "안녕하세요!"
+    @State private var secondTitle = "좋은하루 보내셨나용?"
+    @State private var thirdTitle = "아니라구요? "
+    
+    var body: some View {
+        VStack {
+            Text(firstTitle)
+                .background(.random)
+                
+            Text(secondTitle)
+                .background(.random)
+            
+            ThirdView(text: thirdTitle)
+            
+            Button("Change first title") {
+                firstTitle = "오늘 퇴근 몇시에 하세요?"
+            }
+        }
+    }
+ }
+
+ fileprivate struct ThirdView: View {
+    let text: String    
+    
+    var body: some View {
+        Text(text)
+            .background(.random)  
+    }
+ }
+
+```
+
+- 하단의 경우 firstTitle의 값이 바뀌는 view 내부에서 ThirdView가 있어서 body가 다시 그려져 background 변경됨.
+```swift
+struct StateRedrawView: View {
+    @State private var firstTitle = "안녕하세요!"
+    @State private var secondTitle = "좋은하루 보내셨나용?"
+    @State private var thirdTitle = "아니라구요? "
+    
+    var body: some View {
+        VStack {
+            Text(firstTitle)
+                .background(.random)
+                
+            Text(secondTitle)
+                .background(.random)
+            
+            ThirdView(text: thirdTitle)
+                .background(.random)    // 다시 그려짐
+            
+            Button("Change first title") {
+                firstTitle = "오늘 퇴근 몇시에 하세요?"
+            }
+        }
+    }
+}
+
+fileprivate struct ThirdView: View {
+    let text: String    
+    
+    var body: some View {
+        Text(text)
+//            .background(.random)  // 다시 x
+    }
+}
+```
+
+- State를 변경했을 때 하위 뷰까지 다시 그려주고 싶을 경우 
+  - 하위뷰에 변경될 state를 넘겨준다. (Binding해준당!)
+
+```swift
+
+struct StateRedrawView: View {
+    @State private var firstTitle = "안녕하세요!"
+    @State private var secondTitle = "좋은하루 보내셨나용?"
+    @State private var thirdTitle = "아니라구요? "
+    
+    var body: some View {
+        VStack {
+            Text(firstTitle)
+                .background(.random)
+            
+            SecondView(text: $secondTitle, firstTitle: $firstTitle)
+            
+            ThirdView(text: thirdTitle)
+            
+            Button("Change first title") {
+                firstTitle = "오늘 퇴근 몇시에 하세요?"
+            }
+        }
+    }
+}
+
+fileprivate struct SecondView: View {
+    @Binding var text: String
+    @Binding var firstTitle: String
+    
+    var body: some View {
+        HStack {
+            Text(text)
+                .background(.random)
+            
+            // 직접적인 값 변경을 하위 뷰에서 하지 않아도 변경됨.
+            // 해당 button 주석처리해도 변경! 
+//            Button("Change first title") {
+//                firstTitle = "지금!"
+//            }
+        }
+    }
+}
+
+```
+
+
 
 State 사용예시
 - 특정 행동에 맞춰 view의 상태 변경시 
@@ -206,6 +372,7 @@ State 사용예시
     }
  }
 ```
+
 
 ## Observable
 -
