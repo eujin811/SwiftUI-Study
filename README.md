@@ -5,7 +5,8 @@
   - 사용법
   - 다시 그려지는 시점. 
   - 예시
-- [Observable](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#observable)
+- [ObservableObject](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#observableObject)
+- [Observed](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#observed)
 - [Environment](https://github.com/eujin811/SwiftUI-Study/blob/main/README.md#environmnet)
 
 
@@ -376,14 +377,30 @@ State 사용예시
  }
 ```
 
+## ObservableObject
+- 객체들을 비동기적으로 만들어주는 protocol로 각각의 데이터들이 관찰하고 받아 올 수 있게 해주는 역할.
+- 데이터를 불러오는 식별자로 데이터를 저장할 수 있는 클래스와 함께 사용된다.
+- 데이터를 내려줄때에는 @Published를 사용한다.
+- 데이터를 받아오는 쪽에서는 **@ObservedObject** 혹은 **EnvironmentObject**을 사용해 view쪽에서 데이터를 바인딩한다.
+  ```swift
+    class Object: ObservableObject { 
+     @Published var ~~
+      ... 
+     }
+    
+    class _View: View {
+      @ObservedObject var
+      @EnvironmentObject var
+    }
+  ```
+  
 
-
-
-## Observable
-- ObservableObject 프로토콜을 따르는 형태
-- 각각의 뷰들이 외부에서 데이터를 전달받아야 할 때 표현
+## Observed
+- ObservedObject 프로토콜을 따르는 형태
+- 각각의 뷰들이 데이터를 전달받아야 할 때 표현한다.
 - 변경되야 할 데이터들의 값을 모아 관리하는 역할
-- 뷰에서는 초기화 상태에서 주입되어야 한다.
+- 뷰에서 뷰로 전달되며 뷰에서는 초기화 상태에서 주입되어야 한다.
+  - 상위뷰에서 하위 뷰로 전달하는 형식으로 or view에서 view로 전달해야할 때 사용한다.
 - Observable 객체는 Published property로서 데이터 값을 게시(publish)한다. / 데이터 선언부
   - @Published var ~
 - Observer 객체는 게시자를 구독(Subscribe)하여 published property가 변경될 때마다 업데이트 받는다. / view binding
@@ -425,6 +442,7 @@ State 사용예시
 ## Environmnet
 - 모든 view가 읽을 수 있는 shared data. 
 - 모든 뷰에서 접근 가능한 데이터 or 뷰에서 뷰로 전달하지 않아도 되는 데이터
+  - 혹은 중간 단계의 view를 생략하고 싶을 때 사용.
 - 선언 형식은 Observable과 동일하게 ObservableObject 주입받고 @Published를 사용해 데이터를 선언한다.
 - 사용자 인터페이스 밖에 있으며 여러뷰가 접근해야하는 데이터를 갖을 경우
 - 선언 형식은 Observable과 동일하게 ObservableObject 주입받고 @Published를 사용해 데이터를 선언한다.
@@ -460,5 +478,3 @@ State 사용예시
  }
 ```
 
-**도대체 뷰에서 뷰로 전달하지 않을 때만 사용하는 이유가 뭐야?!?!
-심지어 같은 기능 Observable에서 똑같이 구현가능해! 그냥 init으로 주입안하는거 말고 도대체 뭐가 다른거지??**
