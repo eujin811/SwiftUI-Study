@@ -489,3 +489,15 @@ State 사용예시
  }
 ```
 
+
+**Observable 참고 예시**
+- 어떤 상황에 사용해야 적합할까?라는 생각에 앞으로 쓰게될 TCA를 뒤적뒤적!
+- tca에서는 store에서 기능을 작동하는데 View에서 store의 기능 받아올 때 **ObservedObject**사용!
+  - store에서 내려주는 기능들 사용 + 내부 view들에 내려줄 수 있어야 하기 때문일것으로 추측!
+  
+  <img width="641" alt="tca_viewStore" src="https://user-images.githubusercontent.com/53036267/210234571-29135c3a-8b73-4230-94ab-f70ca3edd79d.png">
+  
+  <img width="657" alt="tca_withVieStore" src="https://user-images.githubusercontent.com/53036267/210234743-f734d434-8734-4901-a163-238232d6cb7c.png">
+
+
+
