@@ -260,7 +260,14 @@ State 사용예시
 - toggle
 - picker
 - tabView
+
+
 - view enable
+
+<img width="348" alt="스크린샷 2023-01-02 오후 10 09 42" src="https://user-images.githubusercontent.com/53036267/210236768-702a17e0-a59f-41da-b12a-83d57b124817.png">
+
+<img width="305" alt="스크린샷 2023-01-02 오후 10 09 47" src="https://user-images.githubusercontent.com/53036267/210236802-aa9388ed-c44e-4caf-952d-684851983557.png">
+
 
 ```swift
   struct ContentView: View {
@@ -297,6 +304,11 @@ State 사용예시
  ```
  
 - toggle / 화면전환.
+  - 토글 값 변화에 맞춰 view 상태에 영향을 주고 싶을 때.
+  
+<img width="268" alt="스크린샷 2023-01-02 오후 10 12 41" src="https://user-images.githubusercontent.com/53036267/210236831-af5c4254-242d-44f9-a323-9b38688ae301.png">
+
+<img width="257" alt="스크린샷 2023-01-02 오후 10 12 46" src="https://user-images.githubusercontent.com/53036267/210236858-8ee59892-bcf2-43c4-a336-7238c95a5ecc.png">
 
 ```swift
  struct ToggleView: View {
@@ -325,7 +337,6 @@ State 사용예시
 ```
 
 - picker 
-  - state로 값 변경 안하면 반응 x
   
 ```swift
  struct SegmentedControlView: View {
@@ -344,6 +355,8 @@ State 사용예시
 
 - tabview 
   - tag 넣지 않아도 단순 선택으로 화면 이동은 되지만 특정 상황에서 화면 이동 하려면 state로 tag값 변경해야함.
+
+<img width="299" alt="스크린샷 2023-01-02 오후 10 17 55" src="https://user-images.githubusercontent.com/53036267/210236904-37c62c45-1bfe-45b4-8ffe-e22e1d427eec.png">
 
 ```swift
  struct TestTabView: View {
