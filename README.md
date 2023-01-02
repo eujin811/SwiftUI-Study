@@ -121,6 +121,12 @@
  }
  
 ```
+전
+<img width="259" alt="스크린샷 2022-12-31 오후 3 45 27" src="https://user-images.githubusercontent.com/53036267/210227242-c1371d9d-4d9e-4e8d-a78b-d3fbd9d92b3e.png">
+
+후
+<img width="204" alt="스크린샷 2022-12-31 오후 3 45 31" src="https://user-images.githubusercontent.com/53036267/210227388-cf5344f8-7353-4f54-9b5a-fb1dfb944552.png">
+
 
 - 새로운 값으로 변경된 상황(firstTitle 변경 시)에만 view들이 다시 그려진다.
   - body 내부의 모든 뷰들이 다시 그려짐 (background color 모두 변경) + 값 변경
@@ -406,6 +412,8 @@ State 사용예시
 - Observer 객체는 게시자를 구독(Subscribe)하여 published property가 변경될 때마다 업데이트 받는다. / view binding
   - @ObservedObject var ~
 
+<img width="925" alt="ObservedObject" src="https://user-images.githubusercontent.com/53036267/210227434-a47a6e21-8241-49a3-a76e-9401427f60b8.png">
+
 **Observable 사용법**
 ```swift
   DemoView(demoData: DemoData())
@@ -448,6 +456,9 @@ State 사용예시
 - 선언 형식은 Observable과 동일하게 ObservableObject 주입받고 @Published를 사용해 데이터를 선언한다.
 - 뷰에서 전달 받을 경우 초기화 시점이 아닌 단순 주입형태
 - **@EnvironemntObject var:** 뷰에서 binding할 property 
+
+<img width="945" alt="EnvironmentObject" src="https://user-images.githubusercontent.com/53036267/210227503-d93e2054-b682-422c-b9b2-0383df53c7ef.png">
+
 
 **사용예시**
 
